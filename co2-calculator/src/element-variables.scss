@@ -1,0 +1,101 @@
+/*
+Write your variables here. All available variables can be
+found in element-plus/packages/theme-chalk/src/common/var.scss.
+For example, to overwrite the theme color:
+*/
+
+/* icon font path, required */
+$--font-path: "~element-plus/lib/theme-chalk/fonts";
+
+$font-size-1: 2em;
+$font-size-2: 1.4em;
+$font-size-3: 1.1em;
+$background-color: rgb(230, 230, 230);
+$font-color-light: #2c2c2c;
+$planted-green: #5966f0;
+
+$--color-primary: $planted-green;
+
+@import "~element-plus/packages/theme-chalk/src/index";
+
+@mixin dark {
+  background-color: $background-color;
+  color: $font-color-light;
+}
+
+@mixin light {
+  background-color: $font-color-light;
+  color: $background-color;
+}
+
+@mixin center {
+  margin: auto;
+  width: 75%;
+}
+
+.el-collapse {
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+.el-collapse-item__header,
+.el-collapse-item__content,
+.el-collapse-item__wrap {
+  @include dark;
+}
+
+.el-form--label-top .el-form-item__label {
+  padding: 0px;
+}
+
+.el-divider__text {
+  @include light;
+  font-size: $font-size-1;
+}
+
+.el-form-item__label {
+  font-size: $font-size-2;
+}
+
+.el-input-name__label {
+  font-size: $font-size-2;
+}
+
+.el-select-dropdown__list,
+.el-input__inner,
+.el-select-dropdown__wrap,
+.el-scrollbar__view {
+  @include light;
+}
+
+.el-input-number__increase,
+.el-input-number__decrease {
+  color: $font-color-light;
+}
+
+.el-select-dropdown__item {
+  @include light;
+  font-size: $font-size-2;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.el-popper {
+  @include light;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.el-input__inner {
+  @include dark;
+  border: 1px solid #191a1a;
+  height: 42px;
+}
+
+.el-progress-bar__innerText {
+  font-size: $font-size-2;
+}
+
+.el-tag {
+  margin: 5% 0;
+  font-size: $font-size-3;
+  background-color: $background-color;
+}
