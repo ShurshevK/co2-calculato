@@ -8,8 +8,12 @@
       <span>
         Pomocou otázok týkajúcich sa 5 faktorov môžete rýchlo odhadnúť svoju uhlíkovú stopu v
         ekvivalente CO<sub>2</sub>
-        <f @mouseover="hover = true" @mouseleave="hover = false"> (CO<sub>2</sub>e) </f>. Vaša stopa
-        sa vypočíta individuálne pre každý faktor, ako aj celkovo.
+        <f class="COSub">(CO<sub>2</sub>e). 
+          <span class="tooltiptextCO2">Hover me</span>
+        </f>
+        
+        
+        
       </span>
       <span class="description" v-if="hover">
         množstvo skleníkových plynov vyjadrené ako súčin hmotnosti v metrických tonách a ich
@@ -534,6 +538,30 @@ a {
   margin-bottom: 4%;
 }
 
+// CO2 Styles
+
+
+.tooltiptextCO2 {
+visibility: hidden;
+  width: 120px;
+  background-color: rgb(71, 43, 43);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  left: 2;
+}
+
+.COSub:hover .tooltiptextCO2 {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+// Holes Sytles
 .tooltiptext {
   visibility: hidden;
   width: 120px;
@@ -567,6 +595,7 @@ a {
   -webkit-animation: fadeIn 1s;
   animation: fadeIn 1s;
 }
+
 
 .total {
   background-color: $background-color;
