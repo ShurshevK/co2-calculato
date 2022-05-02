@@ -28,6 +28,7 @@
       :stroke-width="50"
       :percentage="percentageOfReferenceEmissions"
       :color="colorGradient"
+      :change="handleChange(totalEmissions)"
     >
       <b> <span v-html="formatEmissions(totalEmissions)"> </span> </b>&nbsp;&nbsp;
     </el-progress>
@@ -219,6 +220,7 @@ import {defineComponent} from "vue"
 import {useI18n} from "vue-i18n"
 
 import _ from "lodash"
+import axios from "axios";
 
 import {EstimationResponse, Units} from "./lib/estimation"
 // import * as base from "./estimation/base"
@@ -411,6 +413,11 @@ export default defineComponent({
     i18nOptions(options) {
       return options.map(opt => ({value: opt.split(".").pop(), label: this.t(opt)}))
     },
+    async handleChange(emissionsCount) {
+      console.log("handleChange",emissionsCount)
+      // await axios.get('localhost:5000/emissions', {params: {emissionsCount}})
+      await axios.post('localhost:5000/emissions',  {emissionsCount})
+    }
   },
   components: {
     SourceCitationList,
