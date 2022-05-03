@@ -28,7 +28,6 @@
       :stroke-width="50"
       :percentage="percentageOfReferenceEmissions"
       :color="colorGradient"
-      :change="handleChange(totalEmissions)"
     >
       <b> <span v-html="formatEmissions(totalEmissions)"> </span> </b>&nbsp;&nbsp;
     </el-progress>
@@ -412,12 +411,13 @@ export default defineComponent({
     },
     i18nOptions(options) {
       return options.map(opt => ({value: opt.split(".").pop(), label: this.t(opt)}))
-    },
-    async handleChange(emissionsCount) {
-      console.log("handleChange",emissionsCount)
-      // await axios.get('localhost:5000/emissions', {params: {emissionsCount}})
-      await axios.post('localhost:5000/emissions',  {emissionsCount})
     }
+  },
+  watch: {
+    totalEmissions: async function (newVal, oldVal) {
+      console.log('totalEmissions change', newVal)
+      await axios.post('http://localhost:5000/emissions',  {emissionsCount: newVal });
+    },
   },
   components: {
     SourceCitationList,
