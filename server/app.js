@@ -14,6 +14,17 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+const logger = (req, res, next)  => {
+  console.log('request: ', 'path: ', req.url)
+  next();
+}
+
+app.use(logger);
+
+app.get('/health', (req, res) => {
+  res.status(200).send('Ok');
+});
+
 app.post('/emissions', async (req, res) => {
   console.log('/emissions', req.body);
   serialPort.write(req.body);
@@ -26,6 +37,7 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
 
 
 // development error handler
