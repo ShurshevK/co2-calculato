@@ -219,6 +219,7 @@ import {defineComponent} from "vue"
 import {useI18n} from "vue-i18n"
 
 import _ from "lodash"
+import axios from "axios";
 
 import {EstimationResponse, Units} from "./lib/estimation"
 // import * as base from "./estimation/base"
@@ -410,6 +411,12 @@ export default defineComponent({
     },
     i18nOptions(options) {
       return options.map(opt => ({value: opt.split(".").pop(), label: this.t(opt)}))
+    }
+  },
+  watch: {
+    totalEmissions: async function (newVal, oldVal) {
+      console.log('totalEmissions change', newVal)
+      await axios.post('http://localhost:5000/emissions',  {emissionsCount: newVal });
     },
   },
   components: {
