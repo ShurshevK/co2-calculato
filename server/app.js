@@ -1,7 +1,11 @@
 var http = require('http'),
     express = require('express'),
     bodyParser = require('body-parser'),
-    cors = require('cors');
+    cors = require('cors'),
+    SerialPort = require("serialport").SerialPort
+
+var portName = 'COM3'; //change this to your Arduino port
+var serialPort;
 
 
 // Create global app object
@@ -11,7 +15,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.post('/emissions', async (req, res) => {
-  console.log('/emissions', req.body)
+  console.log('/emissions', req.body);
+  serialPort.write(req.body);
   res.json({});
 })
 
@@ -39,4 +44,26 @@ app.use(function(err, req, res, next) {
 // finally, let's start our server...
 var server = app.listen(process.env.PORT || 5000, function(){
   console.log('Listening on port ' + server.address().port);
+  
+  serialPort = new SerialPort({
+    baudRate: 9600,
+    path: portName,
+    // defaults for Arduino serial communication
+     dataBits: 8,
+     parity: 'none',
+     stopBits: 1,
+     flowControl: false
+  });
+
+  serialPort.on("open", function () {
+    console.log('open serial communication '+ portName);
+  }); 
+
+  serialPort.on("error", function () {
+    console.error('serial port error! ' + portName);
+  });
+
+  serialPort.on("close", function () {
+    console.error('close serial PORT! ' + portName);
+  });
 });
