@@ -38,10 +38,19 @@ $--color-primary: $planted-green;
   margin-right: 2%;
 }
 
-.el-collapse-item__header,
+.el-collapse-item__header {
+  @include dark;
+  border-bottom: 1px solid #747474;
+  border-top: 1px solid #747474;
+}
+
 .el-collapse-item__content,
 .el-collapse-item__wrap {
   @include dark;
+}
+
+.el-switch__core {
+  background: #c4c4c5;
 }
 
 .el-form--label-top .el-form-item__label {
@@ -92,6 +101,11 @@ $--color-primary: $planted-green;
 
 .el-progress-bar__innerText {
   font-size: $font-size-2;
+}
+
+.el-progress-bar__outer {
+  background-color: rgb(230, 230, 230);
+  border: 2px solid #f3f1f1;
 }
 
 .el-tag {
