@@ -8,12 +8,10 @@
       <span>
         Pomocou otázok týkajúcich sa 5 faktorov môžete rýchlo odhadnúť svoju uhlíkovú stopu v
         ekvivalente CO<sub>2</sub>
-        <f class="COSub">(CO<sub>2</sub>e). 
+        <f class="COSub"
+          >(CO<sub>2</sub>e).
           <span class="tooltiptextCO2">Hover me</span>
         </f>
-        
-        
-        
       </span>
       <span class="description" v-if="hover">
         množstvo skleníkových plynov vyjadrené ako súčin hmotnosti v metrických tonách a ich
@@ -219,7 +217,7 @@ import {defineComponent} from "vue"
 import {useI18n} from "vue-i18n"
 
 import _ from "lodash"
-import axios from "axios";
+import axios from "axios"
 
 import {EstimationResponse, Units} from "./lib/estimation"
 // import * as base from "./estimation/base"
@@ -232,6 +230,9 @@ import * as consumerism from "./lib/estimation/consumerism"
 
 import SourceCitationList from "./components/SourceCitationList.vue"
 import IntermediateEmissionDisplay from "./components/IntermediateEmissionDisplay.vue"
+
+import firebase from "./firebaseInit"
+const db = firebase.ref("/emission-data")
 
 export default defineComponent({
   name: "App",
@@ -411,12 +412,12 @@ export default defineComponent({
     },
     i18nOptions(options) {
       return options.map(opt => ({value: opt.split(".").pop(), label: this.t(opt)}))
-    }
+    },
   },
   watch: {
-    totalEmissions: async function (newVal, oldVal) {
-      console.log('totalEmissions change', newVal)
-      await axios.post('http://localhost:5000/emissions',  {emissionsCount: newVal });
+    totalEmissions: async function(newVal, oldVal) {
+      console.log("totalEmissions change", newVal)
+      db.set({"emission-count": newVal})
     },
   },
   components: {
@@ -490,13 +491,21 @@ a {
 }
 
 @-webkit-keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .title {
@@ -547,9 +556,8 @@ a {
 
 // CO2 Styles
 
-
 .tooltiptextCO2 {
-visibility: hidden;
+  visibility: hidden;
   width: 120px;
   background-color: rgb(71, 43, 43);
   color: #fff;
@@ -597,12 +605,11 @@ visibility: hidden;
   left: 0;
 }
 
-.el-form-item__label-wrap:hover ~ .el-form-item__content> .tooltiptext  {
+.el-form-item__label-wrap:hover ~ .el-form-item__content > .tooltiptext {
   visibility: visible;
   -webkit-animation: fadeIn 1s;
   animation: fadeIn 1s;
 }
-
 
 .total {
   background-color: $background-color;
