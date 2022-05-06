@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="header">
     <h1 class="title">
       <a href="https://planted.green"> </a>
@@ -6,11 +7,19 @@
     </h1>
     <div id="introduction">
       <span>
-        Pomocou otázok týkajúcich sa 5 faktorov môžete rýchlo odhadnúť svoju uhlíkovú stopu v
-        ekvivalente CO<sub>2</sub>
+        Pomocou otázok týkajúcich sa 5 faktorov môžete rýchlo odhadnúť svoju
+        <f class="COSub"
+          >uhlíkovú stopu<span class="tooltiptextC"
+            >súčasť vyjadrenia dopadu vašich aktivít na životné prostredie</span
+          >
+        </f>
+        v ekvivalente CO<sub>2</sub>
         <f class="COSub"
           >(CO<sub>2</sub>e).
-          <span class="tooltiptextCO2">Hover me</span>
+          <span class="tooltiptextCO2"
+            >merná jednotka, ktorá sa používa na štandardizáciu klimatických účinkov skleníkových
+            plynov</span
+          >
         </f>
       </span>
       <span class="description" v-if="hover">
@@ -19,6 +28,7 @@
       </span>
     </div>
   </div>
+
   <div class="total">
     <el-progress
       :text-inside="true"
@@ -37,7 +47,7 @@
       <div class="options">
         <el-form :label-position="labelPosition" label-width="auto">
           <el-form-item :label="t('shortHauls')">
-            <span class="tooltiptext">Tooltip text</span>
+            <span class="tooltiptext">do 1500km</span>
             <el-input-number
               id="nShortHauls-option"
               v-model="flying.nShortHauls"
@@ -46,6 +56,7 @@
             ></el-input-number>
           </el-form-item>
           <el-form-item :label="t('mediumHauls')">
+            <span class="tooltiptext">1500-4100km</span>
             <el-input-number
               id="nMediumHauls-option"
               v-model="flying.nMediumHauls"
@@ -54,6 +65,7 @@
             ></el-input-number>
           </el-form-item>
           <el-form-item :label="t('longHauls')">
+            <span class="tooltiptext">od 4100km</span>
             <el-input-number
               id="nLongHauls-option"
               v-model="flying.nLongHauls"
@@ -146,6 +158,7 @@
           </el-form-item>
 
           <el-form-item :label="t('greenEnergy')">
+            <span class="tooltiptext">elektrina vyrobená z obnoviteľných zdrojov</span>
             <el-switch v-model="electricity.greenEnergy" id="electricity-green-energy-option2">
             </el-switch>
           </el-form-item>
@@ -210,6 +223,7 @@
       v-html="t('result', {totalEmissions: formatEmissions(totalEmissions), relationToAverage})"
     ></div>
   </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -217,7 +231,6 @@ import {defineComponent} from "vue"
 import {useI18n} from "vue-i18n"
 
 import _ from "lodash"
-import axios from "axios"
 
 import {EstimationResponse, Units} from "./lib/estimation"
 // import * as base from "./estimation/base"
@@ -292,31 +305,31 @@ export default defineComponent({
         "nutrition.options.VEGAN",
       ]),
       flying: {
-        nShortHauls: 4,
-        nMediumHauls: 2,
-        nLongHauls: 2,
+        nShortHauls: 0,
+        nMediumHauls: 0,
+        nLongHauls: 0,
       },
       nutrition: {
-        diet: "CARNIVORE",
+        diet: "VEGAN",
       },
       driving: {
-        weeklyAverageDistance: 200,
+        weeklyAverageDistance: 0,
       },
       housing: {
         householdSize: 1,
-        apartmentSize: 200,
-        apartmentAge: 1990,
-        housing: "house",
+        apartmentSize: 50,
+        apartmentAge: 2020,
+        housing: "apartment",
       },
       heating: {
-        energySource: "oil",
+        energySource: "electricity",
       } as heating.HeatingEstimationParams,
       electricity: {
         greenEnergy: false,
       } as electricity.ElectricityEstimationParams,
       consumerism: {
         country: "Germany",
-        intensity: "lush",
+        intensity: "frugal",
       } as consumerism.ConsumerismEstimationParams,
       referenceEmissions: 22_211,
       referenceAverageEmissions: 6_767,
@@ -431,6 +444,8 @@ export default defineComponent({
 $font-size-1: 2em;
 $font-size-2: 1.2em;
 $font-size-3: 1.1em;
+$font-size-4: 0.7em;
+$font-size-5: 3em;
 $color: #2c3e50;
 $background-color: rgb(230, 230, 230);
 $font-color: #2c2c2c;
@@ -517,7 +532,10 @@ a {
   h1 {
     display: inline;
     vertical-align: middle;
+    font-size: 3em;
+    font-weight: bold;
   }
+
   img {
     display: inline;
     height: 4ex;
@@ -549,7 +567,7 @@ a {
   font-weight: 700;
   margin-left: 2%;
   margin-right: 2%;
-
+  text-align: center;
   margin-top: 4%;
   margin-bottom: 4%;
 }
@@ -558,12 +576,15 @@ a {
 
 .tooltiptextCO2 {
   visibility: hidden;
-  width: 120px;
-  background-color: rgb(71, 43, 43);
-  color: #fff;
-  text-align: center;
+  width: 500px;
+  height: 10px;
+  font-size: $font-size-4;
+  background-color: rgb(230, 230, 230);
+  color: #5d66eb;
+  text-align: left;
   border-radius: 6px;
   padding: 5px 0;
+  line-height: 15px;
 
   /* Position the tooltip */
   position: absolute;
@@ -576,15 +597,39 @@ a {
   animation: fadeIn 1s;
 }
 
+.tooltiptextC {
+  visibility: hidden;
+  width: 150px;
+  height: 70px;
+  font-size: $font-size-4;
+  background-color: rgb(230, 230, 230);
+  color: #5d66eb;
+  text-align: left;
+  border-radius: 6px;
+  padding: 5px 0;
+  line-height: 15px;
+
+  /* Position the tooltip */
+  position: absolute;
+  left: 2;
+}
+
+.COSub:hover .tooltiptextC {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
 // Holes Sytles
 .tooltiptext {
   visibility: hidden;
-  width: 120px;
-  background-color: rgb(71, 43, 43);
-  color: #fff;
-
+  width: 150px;
+  background-color: rgb(230, 230, 230);
+  color: #5d66eb;
+  text-align: left;
   border-radius: 6px;
   padding: 5px 0;
+  line-height: 15px;
 
   /* Position the tooltip */
   position: absolute;
@@ -631,9 +676,13 @@ a {
 
 #introduction {
   @include text-block;
+  text-align: center;
+  margin: 3% auto;
 }
+
 #result {
   @include text-block;
-  margin: 5% auto;
+  text-align: center;
+  margin: 3% auto;
 }
 </style>

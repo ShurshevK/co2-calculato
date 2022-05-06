@@ -10,7 +10,4 @@ module.exports = {
       fullInstall: true,
     },
   },
-  devServer: {
-    // proxy: 'http://localhost:5000',
-  },
 }
